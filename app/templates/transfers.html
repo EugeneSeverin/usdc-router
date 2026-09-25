@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Мои переводы</h2>
+<div class="tablewrap"><table>
+  <tr><th>Дата</th><th>Направление</th><th>Сумма</th><th>Статус</th><th>Комиссия</th><th>Burn tx</th></tr>
+  {% for x in items %}
+  <tr>
+    <td>{{ x.created_at.strftime('%Y-%m-%d %H:%M') }}</td><td>{{ x.direction }}</td>
+    <td>{{ '%.2f'|format(x.amount_usdc) }}</td>
+    <td><a href="/transfer/{{ x.id }}">{{ x.status.value }}</a></td>
+    <td>{{ x.fees.get('service_fee_usdc', 0) }}</td>
+    <td><code>{{ (x.burn_tx_hash or '')[:12] }}</code></td>
+  </tr>
+  {% else %}<tr><td colspan="6" class="muted">—</td></tr>{% endfor %}
+</table></div>
+<p><a href="/wallet">Кошельки</a> · <a href="/">← дашборд</a></p>
+{% endblock %}

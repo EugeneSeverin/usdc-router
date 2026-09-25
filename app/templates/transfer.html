@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+{% if refresh %}<meta http-equiv="refresh" content="{{ refresh }}">{% endif %}
+<h2>Перевод #{{ t_.id }} — {{ '%.2f'|format(t_.amount_usdc) }} USDC ({{ t_.direction }})</h2>
+<ol>
+  {% for s, done in steps %}
+  <li>{{ '✅' if done else '⬜' }} {{ s.value }}</li>
+  {% endfor %}
+</ol>
+{% if t_.status.value == 'minted_no_deposit' %}
+<p class="warn">Депозит в протокол не принят. USDC остался на вашем кошельке в целевой сети.</p>
+{% endif %}
+{% if t_.error %}<p class="warn">{{ t_.error }}</p>{% endif %}
+<ul>
+  {% if t_.burn_tx_hash %}<li>burn: <code>{{ t_.burn_tx_hash }}</code></li>{% endif %}
+  {% if t_.mint_tx_hash %}<li>mint: <code>{{ t_.mint_tx_hash }}</code></li>{% endif %}
+  {% if t_.deposit_tx_hash %}<li>deposit: <code>{{ t_.deposit_tx_hash }}</code></li>{% endif %}
+  <li>fee: {{ t_.fees.get('service_fee_usdc', 0) }} USDC</li>
+</ul>
+{% if can_complete %}
+<form method="post" action="/transfer/{{ t_.id }}/complete"><button>Завершить перевод</button></form>
+{% endif %}
+<p><a href="/transfers">← Мои переводы</a></p>
+{% endblock %}
