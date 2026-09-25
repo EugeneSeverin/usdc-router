@@ -11,12 +11,12 @@ def utcnow() -> datetime:
     return datetime.now(UTC)
 
 
-class Network(str, enum.Enum):
+class Network(enum.StrEnum):
     solana = "solana"
     aptos = "aptos"
 
 
-class TransferStatus(str, enum.Enum):
+class TransferStatus(enum.StrEnum):
     """Шаги из п.5.2: Выведено → Сожжено → Подтверждено Circle → Выпущено → Внесено."""
 
     created = "created"

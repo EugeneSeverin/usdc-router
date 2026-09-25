@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+{% macro pct(v) %}{% if v is none %}—{% else %}{{ '%.2f'|format(v) }}%{% endif %}{% endmacro %}
+
+<div class="cards">
+  <div class="card"><div class="muted">{{ t('best_solana') }}</div>
+    <div class="v">{{ pct(summary.best_solana.apy) if summary.best_solana else t('no_data') }}</div>
+    <div class="n">{{ summary.best_solana.name if summary.best_solana }}</div></div>
+  <div class="card"><div class="muted">{{ t('best_aptos') }}</div>
+    <div class="v">{{ pct(summary.best_aptos.apy) if summary.best_aptos else t('no_data') }}</div>
+    <div class="n">{{ summary.best_aptos.name if summary.best_aptos }}</div></div>
+  <div class="card"><div class="muted">{{ t('spread') }}</div>
+    {% if summary.spread is not none %}
+    <div class="v">{{ '%.2f'|format(summary.spread|abs) }} pp</div>
+    <div class="n">{{ t('direction_to_aptos') if summary.spread > 0 else t('direction_to_solana') }}</div>
+    {% else %}<div class="v">—</div>{% endif %}</div>
+</div>
+
+{% macro th(col, label) %}<th><a href="?sort={{ col }}&range={{ range }}&lang={{ lang }}">{{ label }}{{ ' ▾' if sort == col }}</a></th>{% endmacro %}
+<div class="tablewrap"><table>
+  <tr>{{ th('network', t('network')) }}{{ th('name', t('protocol')) }}{{ th('apy', t('apy')) }}
+      {{ th('tvl', t('tvl')) }}{{ th('utilization', t('utilization')) }}{{ th('ts', t('updated')) }}</tr>
+  {% for r in rows %}
+  <tr>
+    <td>{{ r.network }}</td><td>{{ r.name }}</td>
+    <td>{% if r.apy is none %}<span class="muted">{{ r.error or t('no_data') }}</span>{% else %}
+      <b>{{ pct(r.apy) }}</b> <span class="muted">({{ pct(r.apy_base) }} {{ t('apy_base') }} + {{ pct(r.apy_rewards) }} {{ t('apy_rewards') }})</span>
+      {% if r.flagged %}<div class="warn">⚠ {{ t('questionable') }}</div>{% endif %}{% endif %}</td>
+    <td>{% if r.tvl is not none %}${{ '{:,.0f}'.format(r.tvl) }}{% else %}—{% endif %}</td>
+    <td>{% if r.utilization is not none %}{{ '%.0f'|format(r.utilization*100) }}%{% else %}—{% endif %}</td>
+    <td class="muted">{{ r.ts.strftime('%Y-%m-%d %H:%M') if r.ts else '—' }}</td>
+  </tr>
+  {% endfor %}
+</table></div>
+
+<p>
+  {% for k in ['1d','7d','30d'] %}
+    <a href="?range={{ k }}&sort={{ sort }}&lang={{ lang }}">{{ '<b>'|safe + k + '</b>'|safe if k == range else k }}</a>{{ ' · ' if not loop.last }}
+  {% endfor %}
+</p>
+{% if charts.apy %}<script nonce="{{ nonce }}" src="/static/plotly.min.js"></script>{{ charts.apy|safe }}{% endif %}
+{% if charts.spread %}{{ charts.spread|safe }}{% endif %}
+
+<h2>{{ t('calculator') }}</h2>
+<form class="inline" method="get">
+  <input type="hidden" name="lang" value="{{ lang }}">
+  <label>{{ t('amount') }}<br><input name="amount" type="number" step="any" min="1" value="{{ amount }}"></label>
+  <label>{{ t('days') }}<br><input name="days" type="number" min="1" value="{{ days }}"></label>
+  <button>{{ t('calc') }}</button>
+</form>
+{% if calc %}
+<ul>
+  <li>{{ t('income_solana') }}: ${{ '%.2f'|format(calc.income_solana) }}</li>
+  <li>{{ t('income_aptos') }}: ${{ '%.2f'|format(calc.income_aptos) }}</li>
+  <li>{{ t('transfer_cost') }}: ${{ '%.2f'|format(calc.transfer_cost) }}</li>
+  <li>{{ t('gain') }}: <b>${{ '%.2f'|format(calc.gain) }}</b></li>
+  <li>{{ t('breakeven_days') }}: {{ '%.1f'|format(calc.breakeven_days) if calc.breakeven_days is not none else '—' }}</li>
+  <li>{{ t('breakeven_amount') }}: {{ '$%.0f'|format(calc.breakeven_amount) if calc.breakeven_amount is not none else '—' }}</li>
+</ul>
+{% if not calc.profitable %}<p class="warn">{{ t('not_worth') }}</p>{% endif %}
+{% endif %}
+{% endblock %}

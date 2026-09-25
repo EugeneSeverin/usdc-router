@@ -46,6 +46,7 @@ target-version = "py312"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
+ignore = ["B008", "E501"]
 
 [tool.mypy]
 python_version = "3.12"
@@ -54,6 +55,7 @@ disallow_untyped_defs = false
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
+addopts = "-p no:anchorpy"
 testpaths = ["tests"]
 
 [build-system]
