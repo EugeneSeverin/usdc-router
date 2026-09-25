@@ -1,0 +1,66 @@
+# Реестр протоколов для MVP (раздел 3 ТЗ).
+# Добавление протокола = новая запись здесь + класс адаптера в app/adapters,
+# зарегистрированный в app/adapters/registry.py. Остальной код не меняется.
+#
+# adapter: dotted path класса адаптера (app.adapters.solana.kamino:KaminoAdapter)
+# defillama_pool_id: id пула на yields.llama.fi — резервный/пока единственный
+#   источник APY для протоколов, где on-chain декодер ещё не реализован
+#   (см. TODO в самом адаптере и раздел 7 ТЗ: "закладывать 1-2 дня на адаптер").
+# addresses: адреса программы/модуля, сверяются с офиц. документацией при релизе.
+
+protocols:
+  - slug: kamino-lend-main
+    network: solana
+    name: "Kamino Lend"
+    adapter: "app.adapters.solana.kamino:KaminoAdapter"
+    is_active: true
+    defillama_pool_id: "3cb152e8-1de7-4a2b-8510-f04014c5fe82" # Kamino Main Market USDC
+    addresses:
+      program_id: "KLend2g3cP87fffoy8q1mQqGKjrxjC8boSyAYavgmjD"
+      reserve: "" # TODO Week1: заполнить PDA основного USDC-резерва после выбора рынка
+
+  - slug: marginfi
+    network: solana
+    name: "MarginFi"
+    adapter: "app.adapters.solana.marginfi:MarginFiAdapter"
+    is_active: true
+    defillama_pool_id: null # на DefiLlama Yields сейчас нет активного пула — нужен on-chain адаптер
+    addresses:
+      program_id: "MFv2hWf31Z9kbCa1snEPYctwafyhdvnV7FZnsebVacA"
+      group: "" # TODO Week1: адрес группы + banks USDC
+
+  - slug: jupiter-lend
+    network: solana
+    name: "Jupiter Lend"
+    adapter: "app.adapters.solana.jupiter_lend:JupiterLendAdapter"
+    is_active: true
+    defillama_pool_id: "d783c8df-e2ed-44b4-8317-161ccc1b5f06" # Jupiter Lend Earn USDC
+    addresses:
+      program_id: "" # TODO Week1
+
+  - slug: aries-markets
+    network: aptos
+    name: "Aries Markets"
+    adapter: "app.adapters.aptos.aries:AriesAdapter"
+    is_active: true
+    defillama_pool_id: null # снят с DefiLlama Yields на текущую дату — нужен on-chain адаптер
+    addresses:
+      module: "0x9770fa9c725cbd97eb50b2be5f7416efdfd1f1554beb0750d4dae4c64e860da::controller"
+
+  - slug: echelon-market
+    network: aptos
+    name: "Echelon"
+    adapter: "app.adapters.aptos.echelon:EchelonAdapter"
+    is_active: true
+    defillama_pool_id: "5a97dc57-ea99-4d8b-aac9-b1b8b80c6b60" # Echelon Market USDC
+    addresses:
+      module: "0xc6bc659f1649553c1a3fa05d9727433dc03843baac29473c817d06d39e7621e::scripts"
+
+  - slug: thala
+    network: aptos
+    name: "Thala"
+    adapter: "app.adapters.aptos.thala:ThalaAdapter"
+    is_active: true
+    defillama_pool_id: null # Thala CDP лендинг сейчас не в Yields — нужен on-chain адаптер
+    addresses:
+      module: "0x6f986d146e4a90b828d8c12c14b6f4e003fdff11a8eecceceb63744363eaed6::scripts"

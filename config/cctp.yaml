@@ -1,0 +1,37 @@
+# Адреса Circle CCTP V2. Сверяются с developers.circle.com при каждом релизе (п.8 ТЗ).
+# Источники: /cctp/references/solana-programs, /cctp/references/aptos-packages,
+#            /cctp/cctp-supported-blockchains (домены). Проверено 2026-09-25.
+# Только V2 (V1 выведен из эксплуатации 31.07.2026).
+
+iris:
+  mainnet: "https://iris-api.circle.com"
+  testnet: "https://iris-api-sandbox.circle.com"
+
+networks:
+  solana:
+    domain: 5
+    supports_fast_transfer: true
+    mainnet:
+      token_messenger_minter_v2: "CCTPV2vPZJS2u2BBsUoscuikbYjnpFmbFsvVuJdgUMQe"
+      message_transmitter_v2: "CCTPV2Sm4AdWt5296sk4P66VBZ7bEhcARwFaaS9YPbeC"
+      usdc_mint: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
+    testnet: # devnet
+      token_messenger_minter_v2: "CCTPV2vPZJS2u2BBsUoscuikbYjnpFmbFsvVuJdgUMQe"
+      message_transmitter_v2: "CCTPV2Sm4AdWt5296sk4P66VBZ7bEhcARwFaaS9YPbeC"
+      usdc_mint: "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU"
+
+  aptos:
+    domain: 9
+    supports_fast_transfer: false # на Aptos только standard; быстрый исходящий недоступен
+    mainnet:
+      message_transmitter_v2_package: "0x1b3f6d749cb835451202f9a1932e49014266f7e3d51611a9a763d156cb4bdaf6"
+      token_messenger_minter_v2_package: "0x551e32781793c30bf1580d11e4f5171e8d068c3d45c3a5b20ae240bfdad99af8"
+      message_transmitter_v2_object: "0x57ba011deccc5749aff12f4900fd30cac744098f7be91f1eba4e07847510ee72"
+      token_messenger_minter_v2_object: "0x52f4732b1cb52ce28f595e29978450132772f88277182e12bc431faa677be603"
+      usdc_asset: "0xbae207659db88bea0cbead6da0ed00aac12edcdda169e591cd41c94180b46f3b"
+    testnet:
+      message_transmitter_v2_package: "0xa582dc019ae17b0485f7d3fcc4ca85bea7941e3b70a4b682cea22759f36e711f"
+      token_messenger_minter_v2_package: "0xc601d3f7b89b77b552726d5d84cbf2a6d3e8a73adbbee3f09fad169a3286bb59"
+      message_transmitter_v2_object: "0x20c2e0b179a05d08b968003d40563a8c467aa84e2fcabfa6fd5084be27988c47"
+      token_messenger_minter_v2_object: "0x6f57203ca59e901130d8bde217b33cde19faa622dd96ecf6681a2d5307412a14"
+      usdc_asset: "0x69091fbab5f7d635ee7ac5098cf0c1efbe31d68fec0f2cd565e8d168daf52832"

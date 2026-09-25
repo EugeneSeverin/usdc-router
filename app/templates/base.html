@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="{{ lang }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ t('title') }}</title>
+  <style>
+    :root { color-scheme: light dark; --b:#8884; --acc:#0a7d5a; }
+    body { font: 15px/1.5 system-ui, sans-serif; margin: 0 auto; max-width: 1000px; padding: 12px 16px; }
+    header { display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:8px; }
+    .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin:16px 0; }
+    .card { border:1px solid var(--b); border-radius:10px; padding:12px 16px; }
+    .card .v { font-size:28px; font-weight:700; }
+    .card .n { color:var(--acc); }
+    .tablewrap { overflow-x:auto; }
+    table { border-collapse:collapse; width:100%; min-width:560px; }
+    th,td { text-align:left; padding:6px 8px; border-bottom:1px solid var(--b); }
+    th a { color:inherit; }
+    .warn { color:#c60; font-size:12px; }
+    .muted { opacity:.65; }
+    .risk { border:1px solid #c60; border-radius:8px; padding:8px 12px; margin:24px 0; font-size:13px; }
+    form.inline { display:flex; flex-wrap:wrap; gap:8px; align-items:end; }
+    input { padding:6px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>{{ t('title') }}</h1>
+    <nav><a href="?lang=ru">RU</a> · <a href="?lang=en">EN</a></nav>
+  </header>
+  <p class="muted">{{ t('tagline') }}</p>
+  {% block content %}{% endblock %}
+  <p class="risk">⚠ {{ t('risk') }}</p>
+</body>
+</html>
