@@ -4,8 +4,6 @@
 <img width="1200" height="880" alt="1_dashboard" src="https://github.com/user-attachments/assets/4a31fbbe-c991-41c9-8f4c-63fe9071c971" />
 <img width="1200" height="810" alt="2_charts" src="https://github.com/user-attachments/assets/c22e0725-63fa-47c0-bd5f-788f519d2515" />
 <img width="1200" height="510" alt="3_calculator" src="https://github.com/user-attachments/assets/682b9f97-f39c-4fe7-a553-3b2b30f497f5" />
-<img width="1000" height="2100" alt="4_mobile" src="https://github.com/user-attachments/assets/d6e6f678-98b1-4379-b635-1404846a0cd5" />
-
 
 Реализация ТЗ. Python 3.12, FastAPI + Jinja2 (без собственного JS), SQLAlchemy 2 async, aiogram 3.
 
